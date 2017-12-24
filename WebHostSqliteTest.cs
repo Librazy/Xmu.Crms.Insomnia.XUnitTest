@@ -84,7 +84,7 @@ namespace Xmu.Crms.Insomnia.XUnitTest
                 {
                     var services = scope.ServiceProvider;
                     var fg = services.GetRequiredService<IFixGroupService>();
-                    Assert.NotEmpty(fg.GetFixGroupByGroupId(1));
+                    fg.GetFixedGroupById(1, 1);
                 }
             }
             finally
