@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
@@ -85,6 +86,117 @@ namespace Xmu.Crms.Insomnia.XUnitTest
                     var services = scope.ServiceProvider;
                     var fg = services.GetRequiredService<IFixGroupService>();
                     fg.GetFixedGroupById(1, 1);
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        [Fact]
+        public async Task CanSelectCourse()
+        {
+            var basePath = GetProjectPath(Assembly.GetExecutingAssembly());
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+            try
+            {
+                var server = (await connection.PopulateDbAsync(basePath)).MakeTestServer(basePath);
+                using (var scope = server.Host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var us = services.GetRequiredService<IUserService>();
+                    var lg = services.GetRequiredService<ILoginService>();
+                    var cr = services.GetRequiredService<ICourseService>();
+                    var cl = services.GetRequiredService<IClassService>();
+                    var stu = lg.SignUpPhone(new UserInfo {Phone = "18800002333", Password = "crms2017"});
+                    us.UpdateUserByUserId(stu.Id,
+                        new UserInfo {Name = "≤‚ ‘CSC", Type = Type.Student, Email = "a@b.test", Gender = Gender.Male, School = new School{Id = 1}});
+                    var classInfos = cr.ListClassByCourseName("øŒ≥Ã1");
+                    cl.InsertCourseSelectionById(stu.Id, classInfos.First().Id);
+                    Assert.NotEmpty(cl.ListClassByUserId(stu.Id));
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        [Fact]
+        public async Task CanJoinFixGroup()
+        {
+            var basePath = GetProjectPath(Assembly.GetExecutingAssembly());
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+            try
+            {
+                var server = (await connection.PopulateDbAsync(basePath)).MakeTestServer(basePath);
+                using (var scope = server.Host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var us = services.GetRequiredService<IUserService>();
+                    var lg = services.GetRequiredService<ILoginService>();
+                    var fg = services.GetRequiredService<IFixGroupService>();
+                    var cr = services.GetRequiredService<ICourseService>();
+                    var cl = services.GetRequiredService<IClassService>();
+                    var stu = lg.SignUpPhone(new UserInfo { Phone = "18800002333", Password = "crms2017" });
+                    us.UpdateUserByUserId(stu.Id,
+                        new UserInfo { Name = "≤‚ ‘CSC", Type = Type.Student, Email = "a@b.test", Gender = Gender.Male, School = new School { Id = 1 } });
+                    var classInfos = cr.ListClassByCourseName("øŒ≥Ã1");
+                    var cls = classInfos.First();
+                    cl.InsertCourseSelectionById(stu.Id, cls.Id);
+                    Assert.NotEmpty(cl.ListClassByUserId(stu.Id));
+                    var groups = fg.ListFixGroupByClassId(cls.Id);
+                    var grp = groups.First();
+                    fg.InsertStudentIntoGroup(stu.Id, grp.Id);
+                    Assert.NotNull(fg.GetFixedGroupById(stu.Id, cls.Id));
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        [Fact]
+        public async Task CanSelectTopic()
+        {
+            var basePath = GetProjectPath(Assembly.GetExecutingAssembly());
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+            try
+            {
+                var server = (await connection.PopulateDbAsync(basePath)).MakeTestServer(basePath);
+                using (var scope = server.Host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var us = services.GetRequiredService<IUserService>();
+                    var lg = services.GetRequiredService<ILoginService>();
+                    var sg = services.GetRequiredService<ISeminarGroupService>();
+                    var ss = services.GetRequiredService<ISeminarService>();
+                    var cr = services.GetRequiredService<ICourseService>();
+                    var cl = services.GetRequiredService<IClassService>();
+                    var tp = services.GetRequiredService<ITopicService>();
+                    var stu = lg.SignUpPhone(new UserInfo { Phone = "18800002333", Password = "crms2017" });
+                    us.UpdateUserByUserId(stu.Id,
+                        new UserInfo { Name = "≤‚ ‘CSC", Type = Type.Student, Email = "a@b.test", Gender = Gender.Male, School = new School { Id = 1 } });
+                    var classInfos = cr.ListClassByCourseName("øŒ≥Ã1");
+                    var cls = classInfos.First();
+                    cl.InsertCourseSelectionById(stu.Id, cls.Id);
+                    Assert.NotEmpty(cl.ListClassByUserId(stu.Id));
+                    var seminars = ss.ListSeminarByCourseId(cls.Course.Id);
+                    var sem = seminars.First();
+                    var grps = sg.ListSeminarGroupBySeminarId(sem.Id);
+                    var grp = grps.First();
+                    sg.InsertSeminarGroupMemberById(stu.Id, grp.Id);
+                    Assert.NotNull(sg.GetSeminarGroupById(sem.Id, stu.Id));
+                    sg.ResignLeaderById(grp.Id, grp.Leader.Id);
+                    sg.AssignLeaderById(grp.Id, stu.Id);
+                    var topics = tp.ListTopicBySeminarId(sem.Id);
+                    var trp = topics.First();
+                    sg.InsertTopicByGroupId(grp.Id, trp.Id);
                 }
             }
             finally

@@ -14,7 +14,7 @@ namespace Xmu.Crms.Insomnia.XUnitTest
 {
     internal static class Utils
     {
-        public static async Task<SqliteConnection> PopulateDbAsync(this SqliteConnection connection, string basePath, string fileName = "sqlite.sql")
+        public static async Task<SqliteConnection> PopulateDbAsync(this SqliteConnection connection, string basePath, string fileName = "init.sqlite")
         {
             var transaction = connection.BeginTransaction();
             var cmd = connection.CreateCommand();

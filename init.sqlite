@@ -1,7 +1,7 @@
 CREATE TABLE `attendance` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `student_id` integer  NOT NULL
 ,  `seminar_id` integer  NOT NULL
 ,  `class_id` integer  NOT NULL
@@ -38,7 +38,7 @@ INSERT INTO `attendance` VALUES ('28', '2017-12-16 12:10:23', '2017-12-16 12:10:
 CREATE TABLE `class_info` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `name` varchar(255) NOT NULL
 ,  `course_id` integer  DEFAULT NULL
 ,  `description` varchar(5000) DEFAULT NULL
@@ -55,7 +55,7 @@ INSERT INTO `class_info` VALUES ('2', '2017-12-15 22:18:47', '2017-12-15 22:18:4
 CREATE TABLE `course` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `name` varchar(30) NOT NULL
 ,  `start_date` date DEFAULT NULL
 ,  `end_date` date DEFAULT NULL
@@ -73,7 +73,7 @@ INSERT INTO `course` VALUES ('3', '2017-12-15 22:21:56', '2017-12-15 22:21:56', 
 CREATE TABLE `course_selection` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `class_id` integer  DEFAULT NULL
 ,  `student_id` integer  DEFAULT NULL
 );
@@ -167,7 +167,7 @@ INSERT INTO `course_selection` VALUES ('87', '2017-12-15 22:23:55', '2017-12-15 
 CREATE TABLE `event` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `bean_name` varchar(255) DEFAULT NULL
 ,  `method_name` varchar(255) DEFAULT NULL
 ,  `parameter` varchar(255) DEFAULT NULL
@@ -176,7 +176,7 @@ CREATE TABLE `event` (
 CREATE TABLE `fix_group` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `class_id` integer  DEFAULT NULL
 ,  `leader_id` integer  DEFAULT NULL
 );
@@ -201,7 +201,7 @@ INSERT INTO `fix_group` VALUES ('18', '2017-12-16 12:11:11', '2017-12-16 12:11:1
 CREATE TABLE `fix_group_member` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `fix_group_id` integer  DEFAULT NULL
 ,  `student_id` integer  DEFAULT NULL
 );
@@ -294,7 +294,7 @@ INSERT INTO `fix_group_member` VALUES ('86', '2017-12-16 12:11:39', '2017-12-16 
 CREATE TABLE `fix_group_topic` (
   `id` integer  NOT NULL
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `fix_group_id` integer  DEFAULT NULL
 ,  `topic_id` integer  DEFAULT NULL
 ,  PRIMARY KEY (`id`)
@@ -302,7 +302,7 @@ CREATE TABLE `fix_group_topic` (
 CREATE TABLE `location` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `class_id` integer  DEFAULT NULL
 ,  `seminar_id` integer  DEFAULT NULL
 ,  `longitude` decimal(10,6) DEFAULT NULL
@@ -312,7 +312,7 @@ CREATE TABLE `location` (
 CREATE TABLE `school` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `name` varchar(20) NOT NULL
 ,  `province` varchar(10) NOT NULL
 ,  `city` varchar(10) NOT NULL
@@ -331,7 +331,7 @@ INSERT INTO `school` VALUES ('10', '2017-12-15 22:25:31', '2017-12-15 22:25:31',
 CREATE TABLE `seminar` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `name` varchar(300) NOT NULL
 ,  `description` varchar(5000) DEFAULT NULL
 ,  `course_id` integer  DEFAULT NULL
@@ -345,7 +345,7 @@ INSERT INTO `seminar` VALUES ('3', '2017-12-15 22:27:02', '2017-12-15 22:27:02',
 CREATE TABLE `seminar_group` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `seminar_id` integer  DEFAULT NULL
 ,  `report_grade` integer  DEFAULT NULL
 ,  `presentation_grade` integer  DEFAULT NULL
@@ -393,7 +393,7 @@ INSERT INTO `seminar_group` VALUES ('36', '2017-12-16 12:12:18', '2017-12-16 12:
 CREATE TABLE `seminar_group_member` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `seminar_group_id` integer  DEFAULT NULL
 ,  `student_id` integer  DEFAULT NULL
 );
@@ -570,7 +570,7 @@ INSERT INTO `seminar_group_member` VALUES ('170', '2017-12-16 12:12:45', '2017-1
 CREATE TABLE `seminar_group_topic` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `topic_id` integer  DEFAULT NULL
 ,  `seminar_group_id` integer  DEFAULT NULL
 ,  `presentation_grade` integer  DEFAULT NULL
@@ -626,7 +626,7 @@ INSERT INTO `seminar_group_topic` VALUES ('48', '2017-12-16 12:13:03', '2017-12-
 CREATE TABLE `student_score_group` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `student_id` integer  DEFAULT NULL
 ,  `seminar_group_topic_id` integer  DEFAULT NULL
 ,  `grade` integer  DEFAULT NULL
@@ -1204,23 +1204,24 @@ INSERT INTO `student_score_group` VALUES ('570', '2017-12-16 12:13:21', '2017-12
 CREATE TABLE `topic` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `name` varchar(300) NOT NULL
+,  `serial` varchar(3) NOT NULL
 ,  `description` varchar(5000) DEFAULT NULL
 ,  `group_number_limit` integer  NOT NULL
 ,  `group_student_limit` integer  NOT NULL
 ,  `seminar_id` integer  NOT NULL
 );
-INSERT INTO `topic` VALUES ('1', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题1', '话题说明1', '9', '5', '1');
-INSERT INTO `topic` VALUES ('2', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题2', '话题说明2', '9', '5', '1');
-INSERT INTO `topic` VALUES ('3', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题3', '话题说明3', '6', '5', '2');
-INSERT INTO `topic` VALUES ('4', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题4', '话题说明4', '6', '5', '2');
-INSERT INTO `topic` VALUES ('5', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题5', '话题说明5', '3', '5', '3');
-INSERT INTO `topic` VALUES ('6', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题6', '话题说明6', '3', '5', '3');
+INSERT INTO `topic` VALUES ('1', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题1', 'A', '话题说明1', '9', '5', '1');
+INSERT INTO `topic` VALUES ('2', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题2', 'B', '话题说明2', '9', '5', '1');
+INSERT INTO `topic` VALUES ('3', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题3', 'A', '话题说明3', '6', '5', '2');
+INSERT INTO `topic` VALUES ('4', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题4', 'B', '话题说明4', '6', '5', '2');
+INSERT INTO `topic` VALUES ('5', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题5', 'A', '话题说明5', '3', '5', '3');
+INSERT INTO `topic` VALUES ('6', '2017-12-15 22:29:16', '2017-12-15 22:29:16', '话题6', 'B', '话题说明6', '3', '5', '3');
 CREATE TABLE `user_info` (
   `id` integer  NOT NULL PRIMARY KEY AUTOINCREMENT
 ,  `gmt_create` datetime DEFAULT CURRENT_TIMESTAMP
-,  `gmt_modified` datetime 
+,  `gmt_modified` datetime DEFAULT CURRENT_TIMESTAMP
 ,  `phone` char(11) NOT NULL
 ,  `wechat_id` varchar(50) DEFAULT NULL
 ,  `openid` varchar(50) DEFAULT NULL
